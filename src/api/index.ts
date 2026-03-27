@@ -1,4 +1,4 @@
-import type { User } from "../types";
+import type { User, Entry } from "../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -50,3 +50,36 @@ export async function logout() : Promise<void> {
 
     return response.json();
 }
+
+// Entries
+
+export async function getEntries(): Promise<Entry[]> {
+    const response = await fetch(`${BASE_URL}/api/entries`, {
+        credentials: "include"
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+
+    return response.json();
+};
+
+
+export async function createEntry(data: Omit<Entry, 'id' | 'createdAt' | 'userId'>): Promise<Entry> {
+    const response = await fetch(`${BASE_URL}/api/entries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+
+    return response.json();
+}
+
