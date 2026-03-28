@@ -1,19 +1,28 @@
+import { useEffect } from 'react';
 import './App.css';
 import { 
   register, 
   login, 
   logout, 
   getEntries,
-  createEntry 
+  createEntry,
+  getEntryById, 
+  updateEntry, 
+  deleteEntry,
+  getEntriesGenres,
+  getStats
 } from './api/index';
 
 function App() {
   
   async function test() {
-   await createEntry({title: 'The Great Annihilator', artist: 'Swans', genre: 'Rock', rating: 9, note: 'Favorite Swans album'})
+    const stats = await getStats();
+    console.log(stats);
   }
 
-  test();
+  useEffect(() => {
+    test();
+  }, []);
 
   return (
     <></>

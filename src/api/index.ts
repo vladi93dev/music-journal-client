@@ -1,4 +1,4 @@
-import type { User, Entry } from "../types";
+import type { User, Entry, Stats } from "../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -66,6 +66,19 @@ export async function getEntries(): Promise<Entry[]> {
     return response.json();
 };
 
+export async function getEntryById(id: string): Promise<Entry> {
+    const response = await fetch(`${BASE_URL}/api/entries/${id}`, {
+        credentials: 'include'
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+
+
+    return response.json();
+}
 
 export async function createEntry(data: Omit<Entry, 'id' | 'createdAt' | 'userId'>): Promise<Entry> {
     const response = await fetch(`${BASE_URL}/api/entries`, {
@@ -79,7 +92,62 @@ export async function createEntry(data: Omit<Entry, 'id' | 'createdAt' | 'userId
         const error = await response.json();
         throw new Error(error.message);
     }
+    return response.json();
+}
+
+export async function updateEntry(id: string, data: Partial<Omit<Entry, 'id' | 'createdAt' | 'userId'>>): Promise<Entry> {
+    const response = await fetch(`${BASE_URL}/api/entries/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
 
     return response.json();
 }
 
+export async function deleteEntry(id: string): Promise<void> {
+    const response = await fetch(`${BASE_URL}/api/entries/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+
+    return response.json();
+}
+
+export async function getEntriesGenres(): Promise<void> {
+    const response = await fetch(`${BASE_URL}/api/entries/genres`, {
+        credentials: 'include'
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+
+    return response.json();
+}
+
+export async function getStats(): Promise<Stats> {
+    const response = await fetch(`${BASE_URL}/api/entries/stats`, {
+        credentials: 'include'
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+
+    return response.json();
+}
