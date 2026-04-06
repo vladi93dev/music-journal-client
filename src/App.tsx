@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './App.css';
+import { useAuth } from './context/AuthContext';
 import { 
   register, 
   login, 
@@ -14,18 +15,22 @@ import {
 } from './api/index';
 
 function App() {
-  
-  async function test() {
-    const stats = await getStats();
-    console.log(stats);
-  }
+  const { user, login, logout } = useAuth();
+
 
   useEffect(() => {
-    test();
-  }, []);
+    console.log(user);
+  }, [user]);
+  
+  async function test() {
+    await logout();
+  }
+  
 
   return (
-    <></>
+    <div>
+      <button onClick={test}>Login</button>
+    </div>
   )
 }
 
