@@ -21,7 +21,7 @@ export default function LoginPage() {
       await login(email, password);
       navigate("/");
     } catch (err: any) {
-      setError(err.message || "Invalid username or password");
+      setError(err.message || "Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -35,9 +35,9 @@ export default function LoginPage() {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <label className="text-sm text-slate-400">Username</label>
+          <label className="text-sm text-slate-400">Email</label>
           <input
-            type="text"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

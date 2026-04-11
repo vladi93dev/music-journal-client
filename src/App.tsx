@@ -21,9 +21,7 @@ import EntryDetailPage from './pages/EntryDetailPage';
 import StatsPage from './pages/StatsPage';
 
 function App() {
-  const { user, login, logout } = useAuth();
   
-
   return (
     <BrowserRouter>
       <AuthProvider>
