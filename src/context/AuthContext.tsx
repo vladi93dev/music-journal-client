@@ -1,6 +1,6 @@
 import type { User } from "../types";
-import { createContext, useState, useContext } from 'react';
-import { login as apiLogin, logout as apiLogout } from '../api/index';
+import { createContext, useState, useContext, useEffect } from 'react';
+import { login as apiLogin, logout as apiLogout, getMe } from '../api/index';
 
 interface AuthContextType {
     user: User | null;
@@ -21,6 +21,13 @@ export function useAuth() {
 export function AuthProvider({children}: { children: React.ReactNode}) {
     const [ user, setUser ] = useState<User | null>(null);
     const [ loading, setLoading ] = useState(true);
+
+    useEffect(() => {
+        getMe()
+        .then(setUser)
+        .catch(() => setUser(null))
+        .finally(() => setLoading(false))
+    }, []);
 
     const login = async(email: string, password: string) => {
         const response = await apiLogin(email, password);

@@ -51,6 +51,20 @@ export async function logout() : Promise<void> {
     return response.json();
 }
 
+export async function getMe(): Promise<User> {
+    const response = await fetch(`${BASE_URL}/api/auth/me`, {
+        credentials: 'include'
+    });
+
+    if(!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+    
+    const data = await response.json();
+    return data;
+}
+
 // Entries
 
 export async function getEntries(): Promise<Entry[]> {
@@ -63,7 +77,8 @@ export async function getEntries(): Promise<Entry[]> {
         throw new Error(error.message);
     }
 
-    return response.json();
+    const data = await response.json();
+    return data.entries;
 };
 
 export async function getEntryById(id: string): Promise<Entry> {
